@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AdvancedTodoApp.Application\AdvancedTodoApp.Application.csproj" />
+    <ProjectReference Include="..\AdvancedTodoApp.Domain\AdvancedTodoApp.Domain.csproj" />
   </ItemGroup>
 
 </Project>

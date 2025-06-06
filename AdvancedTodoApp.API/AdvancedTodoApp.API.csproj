@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AdvancedTodoApp.Application\AdvancedTodoApp.Application.csproj" />
     <ProjectReference Include="..\AdvancedTodoApp.Infrastructure\AdvancedTodoApp.Infrastructure.csproj" />
+    <ProjectReference Include="..\AdvancedTodoApp.Persistence\AdvancedTodoApp.Persistence.csproj" />
   </ItemGroup>
 
 </Project>
