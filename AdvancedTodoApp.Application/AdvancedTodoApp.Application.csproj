@@ -10,4 +10,13 @@
     <ProjectReference Include="..\AdvancedTodoApp.Domain\AdvancedTodoApp.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Abstractions\Services\" />
+    <Folder Include="Abstractions\Persistence\" />
+    <Folder Include="DTOs\" />
+    <Folder Include="Common\" />
+    <Folder Include="Features\Todos\Commands\" />
+    <Folder Include="Features\Todos\Queries\" />
+  </ItemGroup>
+
 </Project>
