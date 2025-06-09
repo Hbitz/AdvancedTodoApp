@@ -1,3 +1,6 @@
+using AdvancedTodoApp.Persistence;
+using Microsoft.EntityFrameworkCore;
+
 namespace AdvancedTodoApp.API
 {
     public class Program
@@ -7,8 +10,10 @@ namespace AdvancedTodoApp.API
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
             builder.Services.AddControllers();
+            // Add DbContext
+            builder.Services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             var app = builder.Build();
 
