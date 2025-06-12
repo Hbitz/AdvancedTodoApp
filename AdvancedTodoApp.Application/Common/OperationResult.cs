@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AdvancedTodoApp.Application.Common
 {
-    internal class OperationResult<T>
+    public class OperationResult<T>
     {
         public bool Success { get; private set; }
         public T? Data { get; private set; }

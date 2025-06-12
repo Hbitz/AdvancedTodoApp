@@ -7,6 +7,7 @@ using AdvancedTodoApp.Application.Interfaces.Persistence;
 using AdvancedTodoApp.Application.Interfaces.Services;
 using AdvancedTodoApp.Domain.Entities;
 using AdvancedTodoApp.Application.DTOs.Category;
+using AdvancedTodoApp.Application.Common;
 
 namespace AdvancedTodoApp.Application.Services
 {
@@ -19,7 +20,7 @@ namespace AdvancedTodoApp.Application.Services
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<CategoryDto?> GetByIdAsync(Guid id, Guid userId)
+        public async Task<OperationResult<CategoryDto>> GetByIdAsync(Guid id, Guid userId)
         {
             var category = await _categoryRepository.GetByIdAsync(id);
             if (category == null || category.UserId != userId)
@@ -27,22 +28,27 @@ namespace AdvancedTodoApp.Application.Services
                 return null;
             }
 
-            return new CategoryDto
-            {
+            var dto = new CategoryDto {
                 Id = category.Id,
                 Name = category.Name,
             };
+
+            return OperationResult<CategoryDto>.Ok(dto);
+
+
         }
 
-        public async Task<List<CategoryDto>> GetAllByUserIdAsync(Guid userId)
+        public async Task<OperationResult<List<CategoryDto>>> GetAllByUserIdAsync(Guid userId)
         {
             var categories = await _categoryRepository.GetAllByUserIdAsync(userId);
-            return categories
+            var dtos = categories
                 .Select(c => new CategoryDto { Id = c.Id, Name = c.Name })
                 .ToList();
+
+            return OperationResult<List<CategoryDto>>.Ok(dtos);
         }
 
-        public async Task AddCategoryAsync(CreateCategoryDto dto, Guid userId)
+        public async Task<OperationResult<string>> AddCategoryAsync(CreateCategoryDto dto, Guid userId)
         {
             var category = new Category
             {
@@ -53,31 +59,37 @@ namespace AdvancedTodoApp.Application.Services
 
             _categoryRepository.Add(category);
             await _categoryRepository.SaveChangesAsync();
+
+            return OperationResult<string>.Ok("Category created successfully.");
         }
 
-        public async Task UpdateCategoryAsync(UpdateCategoryDto dto, Guid userId)
+        public async Task<OperationResult<string>> UpdateCategoryAsync(UpdateCategoryDto dto, Guid userId)
         {
             var existing = await _categoryRepository.GetByIdAsync(dto.Id);
             if (existing == null || existing.UserId != userId)
             {
-                return;
+                return OperationResult<string>.Fail("Category not found or unathuorized.");
             }
             
             existing.Name = dto.Name;
             _categoryRepository.Update(existing);
             await _categoryRepository.SaveChangesAsync();
+
+            return OperationResult<string>.Ok("Category updated successfully.");
         }
 
-        public async Task DeleteCategoryAsync(Guid id, Guid userId)
+        public async Task<OperationResult<string>> DeleteCategoryAsync(Guid id, Guid userId)
         {
             var existing = await _categoryRepository.GetByIdAsync(id);
             if (existing == null || existing.UserId != userId)
             {
-                return;
+                return OperationResult<string>.Fail("Category not found or unauthorized."); ;
             }
 
             _categoryRepository.Delete(existing);
             await _categoryRepository.SaveChangesAsync();
+
+            return OperationResult<string>.Ok("Category deleted successfully");
         }
     }
 }

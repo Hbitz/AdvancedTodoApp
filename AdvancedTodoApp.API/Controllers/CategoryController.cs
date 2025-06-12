@@ -10,7 +10,7 @@ namespace AdvancedTodoApp.API.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
-    public class CategoryController : ControllerBase
+    public class CategoryController : BaseApiController
     {
         private readonly ICategoryService _categoryService;
 
@@ -26,31 +26,27 @@ namespace AdvancedTodoApp.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Category>> GetById(Guid id)
+        public async Task<IActionResult> GetById(Guid id)
         {
             var userId = GetUserId();
-            var category = await _categoryService.GetByIdAsync(id, userId);
-            if (category == null)
-            {
-                return NotFound();
-            }
-            return Ok(category);
+            var result  = await _categoryService.GetByIdAsync(id, userId);
+            return FromResult(result); // Uses BaseApiController to map result to HTTP response(web response model)
         }
 
         [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetAll()
         {
             var userId = GetUserId();
-            var categories = await _categoryService.GetAllByUserIdAsync(userId);
-            return Ok(categories);
+            var result = await _categoryService.GetAllByUserIdAsync(userId);
+            return FromResult(result);
         }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateCategoryDto dto)
         {
             var userId = GetUserId();
-            await _categoryService.AddCategoryAsync(dto, userId);
-            return NoContent();
+            var result = await _categoryService.AddCategoryAsync(dto, userId);
+            return FromResult(result);
             //return CreatedAtAction(nameof(GetById), new { id = userId }, dto);
         }
 
@@ -62,16 +58,16 @@ namespace AdvancedTodoApp.API.Controllers
                 return BadRequest("ID doesn't match");
             }
             var userId = GetUserId();
-            await _categoryService.UpdateCategoryAsync(dto, userId);
-            return NoContent(); // todo - Ok() or other status instead?
+            var result = await _categoryService.UpdateCategoryAsync(dto, userId);
+            return FromResult(result);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var userId = GetUserId();
-            await _categoryService.DeleteCategoryAsync(id, userId);
-            return NoContent();
+            var result = await _categoryService.DeleteCategoryAsync(id, userId);
+            return FromResult(result);
         }
     }
 }
