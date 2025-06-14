@@ -25,7 +25,10 @@ namespace AdvancedTodoApp.Application.Services
             var category = await _categoryRepository.GetByIdAsync(id);
             if (category == null || category.UserId != userId)
             {
-                return null;
+                return OperationResult<CategoryDto>.Fail(
+                    "Category not found or unauthorized.",
+                    ErrorCode.NotFound
+                );
             }
 
             var dto = new CategoryDto {
@@ -66,10 +69,16 @@ namespace AdvancedTodoApp.Application.Services
         public async Task<OperationResult<string>> UpdateCategoryAsync(UpdateCategoryDto dto, Guid userId)
         {
             var existing = await _categoryRepository.GetByIdAsync(dto.Id);
-            if (existing == null || existing.UserId != userId)
+            if (existing == null)
             {
-                return OperationResult<string>.Fail("Category not found or unathuorized.");
+                return OperationResult<string>.Fail("Category not found.", ErrorCode.NotFound);
             }
+
+            if (existing.UserId != userId)
+            {
+                return OperationResult<string>.Fail("Unauthorized to update this category.", ErrorCode.Unauthorized);
+            }
+
             
             existing.Name = dto.Name;
             _categoryRepository.Update(existing);
@@ -81,9 +90,14 @@ namespace AdvancedTodoApp.Application.Services
         public async Task<OperationResult<string>> DeleteCategoryAsync(Guid id, Guid userId)
         {
             var existing = await _categoryRepository.GetByIdAsync(id);
-            if (existing == null || existing.UserId != userId)
+            if (existing == null)
             {
-                return OperationResult<string>.Fail("Category not found or unauthorized."); ;
+                return OperationResult<string>.Fail("Category not found.");
+            }
+
+            if (existing.UserId != userId)
+            {
+                return OperationResult<string>.Fail("Unauthorized to delete this category.", ErrorCode.Unauthorized);
             }
 
             _categoryRepository.Delete(existing);

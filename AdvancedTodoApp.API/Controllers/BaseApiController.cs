@@ -10,6 +10,8 @@ namespace AdvancedTodoApp.API.Controllers
         /// Helper method - maps OperationResult<T> to IActionResult(HTTP/web response model)
         /// This helps use separate concerns by letting service layer focus pureply on business logic and returns OperationResult<T>.
         /// Then the controller cleanly translates this to HTTP respones for our API
+        /// 
+        /// Return type is based on error code
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="result"></param>
@@ -22,7 +24,14 @@ namespace AdvancedTodoApp.API.Controllers
                 return Ok(result.Data);
             }
 
-            return BadRequest(result.Errors);
+            return result.ErrorCode switch
+            {
+                ErrorCode.NotFound => NotFound(result.Errors),
+                ErrorCode.Unauthorized => Forbid(),
+                ErrorCode.ValidationError => BadRequest(result.Errors),
+                ErrorCode.Conflict => Conflict(result.Errors),
+                _ => BadRequest(result.Errors)
+            };
         }
     }
 }
