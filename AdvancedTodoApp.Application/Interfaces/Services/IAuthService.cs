@@ -11,6 +11,6 @@ namespace AdvancedTodoApp.Application.Interfaces.Services
     public interface IAuthService
     {
         Task<OperationResult<string>> RegisterAsync(RegisterUserDto dto);
-        Task<OperationResult<string>> LoginAsync(LoginUserDto dto);
+        Task<OperationResult<JwtTokenDto>> LoginAsync(LoginUserDto dto);
     }
 }

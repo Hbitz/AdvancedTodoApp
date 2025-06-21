@@ -33,7 +33,7 @@ namespace AdvancedTodoApp.API.Controllers
             return FromResult(result); // Uses BaseApiController to map result to HTTP response(web response model)
         }
 
-        [HttpGet("user/{userId}")]
+        [HttpGet("user")]
         public async Task<IActionResult> GetAll()
         {
             var userId = GetUserId();

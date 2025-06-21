@@ -50,16 +50,16 @@ namespace AdvancedTodoApp.Infrastructure.Services
             return OperationResult<string>.Ok("User registered successfully.");
         }
 
-        public async Task<OperationResult<string>> LoginAsync(LoginUserDto dto)
+        public async Task<OperationResult<JwtTokenDto>> LoginAsync(LoginUserDto dto)
         {
             var user = await _userRepository.GetByEmailAsync(dto.Email);
             if (user == null || user.PasswordHash != HashPassword(dto.Password))
             {
-                return OperationResult<string>.Fail("Invalid email or password.");
+                return OperationResult<JwtTokenDto>.Fail("Invalid email or password.");
             }
 
             var token = GenerateJwtToken(user);
-            return OperationResult<string>.Ok(token);
+            return OperationResult<JwtTokenDto>.Ok(token);
         }
 
         private string HashPassword(string password)
@@ -69,7 +69,7 @@ namespace AdvancedTodoApp.Infrastructure.Services
             return Convert.ToBase64String(bytes);
         }
 
-        private string GenerateJwtToken(User user)
+        private JwtTokenDto GenerateJwtToken(User user)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -87,8 +87,8 @@ namespace AdvancedTodoApp.Infrastructure.Services
                 claims: claims,
                 expires: DateTime.UtcNow.AddHours(1),
                 signingCredentials: credentials);
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+            return new JwtTokenDto { Token = tokenString };
         }
     }
 }
