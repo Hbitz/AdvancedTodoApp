@@ -2,8 +2,9 @@ using AdvancedTodoApp.Application.Interfaces.Persistence;
 using AdvancedTodoApp.Application.Interfaces.Services;
 using AdvancedTodoApp.Application.Services;
 using AdvancedTodoApp.Persistence.Repositories;
-using AdvancedTodoApp.Persistence;
+using AdvancedTodoApp.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
+using AdvancedTodoApp.Persistence.Context;
 
 namespace AdvancedTodoApp.API
 {
@@ -17,10 +18,14 @@ namespace AdvancedTodoApp.API
             builder.Services.AddControllers();
             // Add DbContext
             builder.Services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(
+                    builder.Configuration.GetConnectionString("DefaultConnection"),
+                    b => b.MigrationsAssembly("AdvancedTodoApp.Persistence"))); // Tells EF core where the migrations are located
 
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

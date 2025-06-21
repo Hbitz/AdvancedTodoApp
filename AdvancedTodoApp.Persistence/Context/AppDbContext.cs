@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using AdvancedTodoApp.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace AdvancedTodoApp.Persistence
+namespace AdvancedTodoApp.Persistence.Context
 {
     public class AppDbContext : DbContext
     {
