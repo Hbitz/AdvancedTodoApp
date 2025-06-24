@@ -8,6 +8,7 @@ using AdvancedTodoApp.Application.Interfaces.Services;
 using AdvancedTodoApp.Domain.Entities;
 using AdvancedTodoApp.Application.DTOs.Category;
 using AdvancedTodoApp.Application.Common;
+using System.Net;
 
 namespace AdvancedTodoApp.Application.Services
 {
@@ -51,7 +52,7 @@ namespace AdvancedTodoApp.Application.Services
             return OperationResult<List<CategoryDto>>.Ok(dtos);
         }
 
-        public async Task<OperationResult<string>> AddCategoryAsync(CreateCategoryDto dto, Guid userId)
+        public async Task<OperationResult<CategoryDto>> AddCategoryAsync(CreateCategoryDto dto, Guid userId)
         {
             var category = new Category
             {
@@ -63,7 +64,16 @@ namespace AdvancedTodoApp.Application.Services
             _categoryRepository.Add(category);
             await _categoryRepository.SaveChangesAsync();
 
-            return OperationResult<string>.Ok("Category created successfully.");
+            // Manually map to DTO to be able to return a 201 CreatedAt
+            var categoryDto = new CategoryDto
+            {
+                Id = category.Id,
+                Name = category.Name
+            };
+
+
+            // Returns a 201 Created 
+            return OperationResult<CategoryDto>.Ok(categoryDto, HttpStatusCode.Created);
         }
 
         public async Task<OperationResult<string>> UpdateCategoryAsync(UpdateCategoryDto dto, Guid userId)

@@ -21,16 +21,19 @@ namespace AdvancedTodoApp.API.Controllers
         {
             if (result.Success)
             {
-                return Ok(result.Data);
+                // Returns a "Ok(result.Data)" by default, but has added support for other cases such as when returning 201 Created 
+                return StatusCode((int)result.StatusCode, result.Data);
             }
 
+            // Using ErrorCode to map to most appropriate HTTP error response.
             return result.ErrorCode switch
             {
                 ErrorCode.NotFound => NotFound(result.Errors),
                 ErrorCode.Unauthorized => Forbid(),
                 ErrorCode.ValidationError => BadRequest(result.Errors),
                 ErrorCode.Conflict => Conflict(result.Errors),
-                _ => BadRequest(result.Errors)
+                // Fallback for unknown errors and unmapped codes - Using the custom StatusCode provided by service while including the internal error for debugging
+                _ => StatusCode((int)result.StatusCode, new { Errors = result.Errors, Code = result.ErrorCode.ToString() })
             };
         }
     }
