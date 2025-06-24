@@ -76,9 +76,9 @@ namespace AdvancedTodoApp.Application.Services
             return OperationResult<CategoryDto>.Ok(categoryDto, HttpStatusCode.Created);
         }
 
-        public async Task<OperationResult<string>> UpdateCategoryAsync(UpdateCategoryDto dto, Guid userId)
+        public async Task<OperationResult<string>> UpdateCategoryAsync(Guid categoryId, UpdateCategoryDto dto, Guid userId)
         {
-            var existing = await _categoryRepository.GetByIdAsync(dto.Id);
+            var existing = await _categoryRepository.GetByIdAsync(categoryId);
             if (existing == null)
             {
                 return OperationResult<string>.Fail("Category not found.", ErrorCode.NotFound);

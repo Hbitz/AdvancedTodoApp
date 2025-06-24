@@ -14,7 +14,7 @@ namespace AdvancedTodoApp.Application.Interfaces.Services
         Task<OperationResult<CategoryDto>> GetByIdAsync(Guid id, Guid userId);
         Task<OperationResult<List<CategoryDto>>> GetAllByUserIdAsync(Guid userId);
         Task<OperationResult<CategoryDto>> AddCategoryAsync(CreateCategoryDto dto, Guid userId);
-        Task<OperationResult<string>> UpdateCategoryAsync(UpdateCategoryDto dto, Guid userId);
+        Task<OperationResult<string>> UpdateCategoryAsync(Guid categoryId, UpdateCategoryDto dto, Guid userId);
         Task<OperationResult<string>> DeleteCategoryAsync(Guid id, Guid userId);
     }
 }

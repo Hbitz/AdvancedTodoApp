@@ -53,12 +53,8 @@ namespace AdvancedTodoApp.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] UpdateCategoryDto dto)
         {
-            if (id != dto.Id)
-            {
-                return BadRequest("ID doesn't match");
-            }
             var userId = GetUserId();
-            var result = await _categoryService.UpdateCategoryAsync(dto, userId);
+            var result = await _categoryService.UpdateCategoryAsync(id, dto, userId);
             return FromResult(result);
         }
 
