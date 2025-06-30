@@ -4,6 +4,8 @@ using AdvancedTodoApp.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using AdvancedTodoApp.Application.Features.Categories.Commands;
+using MediatR;
 
 namespace AdvancedTodoApp.API.Controllers
 {
@@ -13,10 +15,12 @@ namespace AdvancedTodoApp.API.Controllers
     public class CategoryController : BaseApiController
     {
         private readonly ICategoryService _categoryService;
+        private readonly IMediator _mediator;
 
-        public CategoryController(ICategoryService categoryService)
+        public CategoryController(ICategoryService categoryService, IMediator mediator)
         {
             _categoryService = categoryService;
+            _mediator = mediator;
         }
 
         private Guid GetUserId()
@@ -45,9 +49,16 @@ namespace AdvancedTodoApp.API.Controllers
         public async Task<IActionResult> Create([FromBody] CreateCategoryDto dto)
         {
             var userId = GetUserId();
-            var result = await _categoryService.AddCategoryAsync(dto, userId);
+            //var result = await _categoryService.AddCategoryAsync(dto, userId);
+            // With MediatR added, we create a command and 
+            var command = new CreateCategoryCommand
+            {
+                Name = dto.Name,
+                UserId = userId,
+            };
+
+            var result = await _mediator.Send(command);
             return FromResult(result);
-            //return CreatedAtAction(nameof(GetById), new { id = userId }, dto);
         }
 
         [HttpPut("{id}")]

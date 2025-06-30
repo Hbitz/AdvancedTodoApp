@@ -30,6 +30,12 @@ namespace AdvancedTodoApp.API
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
 
+            // Register MediatR
+            builder.Services.AddMediatR(config =>
+            {
+                config.RegisterServicesFromAssembly(typeof(ICategoryService).Assembly);
+            });
+
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -48,6 +54,7 @@ namespace AdvancedTodoApp.API
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
                     };
                 });
+
 
             builder.Services.AddAuthorization();
 
