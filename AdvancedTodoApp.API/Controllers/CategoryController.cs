@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using AdvancedTodoApp.Application.Features.Categories.Commands;
 using MediatR;
+using AdvancedTodoApp.Application.Features.Categories.Queries;
 
 namespace AdvancedTodoApp.API.Controllers
 {
@@ -33,7 +34,13 @@ namespace AdvancedTodoApp.API.Controllers
         public async Task<IActionResult> GetById(Guid id)
         {
             var userId = GetUserId();
-            var result  = await _categoryService.GetByIdAsync(id, userId);
+            var query = new GetCategoryByIdQuery
+            {
+                CategoryId = id,
+                UserId = userId
+            };
+            var result = await _mediator.Send(query);
+            //var result  = await _categoryService.GetByIdAsync(id, userId);
             return FromResult(result); // Uses BaseApiController to map result to HTTP response(web response model)
         }
 
@@ -41,7 +48,12 @@ namespace AdvancedTodoApp.API.Controllers
         public async Task<IActionResult> GetAll()
         {
             var userId = GetUserId();
-            var result = await _categoryService.GetAllByUserIdAsync(userId);
+            var query = new GetCategoriesQuery 
+            { 
+                UserId = userId
+            };
+            var result = await _mediator.Send(query);
+            //var result = await _categoryService.GetAllByUserIdAsync(userId);
             return FromResult(result);
         }
 
@@ -65,7 +77,14 @@ namespace AdvancedTodoApp.API.Controllers
         public async Task<IActionResult> Update(Guid id, [FromBody] UpdateCategoryDto dto)
         {
             var userId = GetUserId();
-            var result = await _categoryService.UpdateCategoryAsync(id, dto, userId);
+            //var result = await _categoryService.UpdateCategoryAsync(id, dto, userId);
+            var command = new UpdateCategoryCommand
+            {
+                CategoryId = id,
+                UserId = userId,
+                Name = dto.Name,
+            };
+            var result = await _mediator.Send(command);
             return FromResult(result);
         }
 
@@ -73,7 +92,13 @@ namespace AdvancedTodoApp.API.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             var userId = GetUserId();
-            var result = await _categoryService.DeleteCategoryAsync(id, userId);
+            var command = new DeleteCategoryCommand
+            {
+                CategoryId = id,
+                UserId = userId
+            };
+            var result = await _mediator.Send(command);
+            //var result = await _categoryService.DeleteCategoryAsync(id, userId);
             return FromResult(result);
         }
     }
