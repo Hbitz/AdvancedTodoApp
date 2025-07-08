@@ -15,12 +15,10 @@ namespace AdvancedTodoApp.API.Controllers
     [Authorize]
     public class CategoryController : BaseApiController
     {
-        private readonly ICategoryService _categoryService;
         private readonly IMediator _mediator;
 
-        public CategoryController(ICategoryService categoryService, IMediator mediator)
+        public CategoryController(IMediator mediator)
         {
-            _categoryService = categoryService;
             _mediator = mediator;
         }
 
@@ -40,7 +38,6 @@ namespace AdvancedTodoApp.API.Controllers
                 UserId = userId
             };
             var result = await _mediator.Send(query);
-            //var result  = await _categoryService.GetByIdAsync(id, userId);
             return FromResult(result); // Uses BaseApiController to map result to HTTP response(web response model)
         }
 
@@ -53,7 +50,6 @@ namespace AdvancedTodoApp.API.Controllers
                 UserId = userId
             };
             var result = await _mediator.Send(query);
-            //var result = await _categoryService.GetAllByUserIdAsync(userId);
             return FromResult(result);
         }
 
@@ -61,8 +57,6 @@ namespace AdvancedTodoApp.API.Controllers
         public async Task<IActionResult> Create([FromBody] CreateCategoryDto dto)
         {
             var userId = GetUserId();
-            //var result = await _categoryService.AddCategoryAsync(dto, userId);
-            // With MediatR added, we create a command and 
             var command = new CreateCategoryCommand
             {
                 Name = dto.Name,
@@ -77,7 +71,6 @@ namespace AdvancedTodoApp.API.Controllers
         public async Task<IActionResult> Update(Guid id, [FromBody] UpdateCategoryDto dto)
         {
             var userId = GetUserId();
-            //var result = await _categoryService.UpdateCategoryAsync(id, dto, userId);
             var command = new UpdateCategoryCommand
             {
                 CategoryId = id,
@@ -98,7 +91,6 @@ namespace AdvancedTodoApp.API.Controllers
                 UserId = userId
             };
             var result = await _mediator.Send(command);
-            //var result = await _categoryService.DeleteCategoryAsync(id, userId);
             return FromResult(result);
         }
     }

@@ -12,6 +12,7 @@ using System.Net;
 
 namespace AdvancedTodoApp.Application.Services
 {
+    // Currently unused, as CategoryController now using MediatR instead.
     public class CategoryService : ICategoryService
     {
         private readonly ICategoryRepository _categoryRepository;

@@ -11,6 +11,7 @@ namespace AdvancedTodoApp.Application.Interfaces.Services
 {
     public interface ICategoryService
     {
+        // Currently unused, as CategoryController now using MediatR instead.
         Task<OperationResult<CategoryDto>> GetByIdAsync(Guid id, Guid userId);
         Task<OperationResult<List<CategoryDto>>> GetAllByUserIdAsync(Guid userId);
         Task<OperationResult<CategoryDto>> AddCategoryAsync(CreateCategoryDto dto, Guid userId);
