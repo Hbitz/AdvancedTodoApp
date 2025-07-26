@@ -28,12 +28,12 @@ namespace AdvancedTodoApp.API.Controllers
             // Using ErrorCode to map to most appropriate HTTP error response.
             return result.ErrorCode switch
             {
-                ErrorCode.NotFound => NotFound(result.Errors),
+                ErrorCode.NotFound => NotFound(result),
                 ErrorCode.Unauthorized => Forbid(),
-                ErrorCode.ValidationError => BadRequest(result.Errors),
-                ErrorCode.Conflict => Conflict(result.Errors),
+                ErrorCode.ValidationError => BadRequest(result),
+                ErrorCode.Conflict => Conflict(result),
                 // Fallback for unknown errors and unmapped codes - Using the custom StatusCode provided by service while including the internal error for debugging
-                _ => StatusCode((int)result.StatusCode, new { Errors = result.Errors, Code = result.ErrorCode.ToString() })
+                _ => StatusCode((int)result.StatusCode, result)
             };
         }
     }
