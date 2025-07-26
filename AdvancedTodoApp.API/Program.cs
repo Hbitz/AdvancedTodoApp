@@ -8,6 +8,10 @@ using AdvancedTodoApp.Persistence.Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using FluentValidation;
+using AdvancedTodoApp.Application.Common.Behaviors;
+using AdvancedTodoApp.Application.Features.Categories.Commands;
+using MediatR;
 
 namespace AdvancedTodoApp.API
 {
@@ -30,10 +34,14 @@ namespace AdvancedTodoApp.API
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
 
+            // FluentValidation
+            builder.Services.AddValidatorsFromAssemblyContaining<CreateCategoryCommandValidator>();
+            builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
             // Register MediatR
             builder.Services.AddMediatR(config =>
             {
-                config.RegisterServicesFromAssembly(typeof(ICategoryService).Assembly);
+                config.RegisterServicesFromAssembly(typeof(CreateCategoryCommand).Assembly);
             });
 
             builder.Services.AddAuthentication(options =>
