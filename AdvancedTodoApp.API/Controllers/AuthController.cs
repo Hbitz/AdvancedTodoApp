@@ -1,6 +1,8 @@
 ﻿using AdvancedTodoApp.Application.DTOs.Auth;
 using AdvancedTodoApp.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
+using MediatR;
+using AdvancedTodoApp.Application.Features.Categories.Commands;
 
 namespace AdvancedTodoApp.API.Controllers
 {
@@ -8,24 +10,35 @@ namespace AdvancedTodoApp.API.Controllers
     [Route("api/[controller]")]
     public class AuthController : BaseApiController
     {
-        private readonly IAuthService _authService;
+        private readonly IMediator _mediator;
 
-        public AuthController(IAuthService authService)
+        public AuthController(IMediator mediator)
         {
-            _authService = authService;
+            _mediator = mediator;
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterUserDto dto)
         {
-            var result = await _authService.RegisterAsync(dto);
+            var command = new RegisterCommand
+            {
+                UserName = dto.UserName,
+                Email = dto.Email,
+                Password = dto.Password
+            };
+            var result = await _mediator.Send(command); 
             return FromResult(result);
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginUserDto dto)
         {
-            var result = await _authService.LoginAsync(dto);
+            var command = new LoginCommand
+            {
+                Email = dto.Email,
+                Password = dto.Password
+            };
+            var result = await _mediator.Send(command);
             return FromResult(result);
         }
     }

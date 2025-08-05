@@ -12,6 +12,8 @@ using FluentValidation;
 using AdvancedTodoApp.Application.Common.Behaviors;
 using AdvancedTodoApp.Application.Features.Categories.Commands;
 using MediatR;
+using AdvancedTodoApp.Application.Interfaces.Auth;
+using AdvancedTodoApp.Infrastructure.Auth;
 
 namespace AdvancedTodoApp.API
 {
@@ -33,6 +35,7 @@ namespace AdvancedTodoApp.API
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 
             // FluentValidation
             builder.Services.AddValidatorsFromAssemblyContaining<CreateCategoryCommandValidator>();
