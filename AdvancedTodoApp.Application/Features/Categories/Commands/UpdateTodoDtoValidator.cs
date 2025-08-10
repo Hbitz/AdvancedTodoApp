@@ -1,0 +1,23 @@
+﻿using AdvancedTodoApp.Application.DTOs.Todo;
+using FluentValidation;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace AdvancedTodoApp.Application.Features.Categories.Commands
+{
+    public class UpdateTodoDtoValidator : AbstractValidator<UpdateTodoDto>
+    {
+        public UpdateTodoDtoValidator() 
+        {
+            RuleFor(x => x.Title)
+                .NotEmpty().WithMessage("Todo title is required.")
+                .Must(title => !string.IsNullOrWhiteSpace(title)).WithMessage("Title cannot be just whitespace.")
+                .Length(1, 100).WithMessage("Todo title  must be less than 100 characters.");
+
+        }
+
+    }
+}
