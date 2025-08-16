@@ -12,6 +12,7 @@ namespace AdvancedTodoApp.Application.Features.Categories.Queries
 {
     public class GetTodoByIsQuery : IRequest<OperationResult<TodoDto>>
     {
-        public Guid Id { get; set; }
+        public Guid TodoId { get; set; }
+        public Guid UserId { get; set; }
     }
 }

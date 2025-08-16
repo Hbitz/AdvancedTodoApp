@@ -11,6 +11,6 @@ namespace AdvancedTodoApp.Application.Features.Categories.Commands
 {
     public class DeleteTodoCommand : IRequest<OperationResult<bool>>
     {
-        public Guid id { get; set; }
+        public Guid Id { get; set; }
     }
 }

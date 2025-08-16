@@ -22,7 +22,7 @@ namespace AdvancedTodoApp.Application.Features.Categories.Handlers
 
         public async Task<OperationResult<bool>> Handle(DeleteTodoCommand request, CancellationToken cancellationToken)
         {
-            var todo = await _todoRepository.GetByIdAsync(request.id);
+            var todo = await _todoRepository.GetByIdAsync(request.Id);
             if (todo == null)
             {
                 return OperationResult<bool>.Fail("Todo not found", statusCode: HttpStatusCode.NotFound);
