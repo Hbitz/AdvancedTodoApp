@@ -41,7 +41,7 @@ namespace AdvancedTodoApp.API.Controllers
         public async Task<IActionResult> GetById(Guid id)
         {
             var userId = GetUserId();
-            var query = new GetTodoByIsQuery { TodoId = id, UserId = userId };
+            var query = new GetTodoByIdQuery { TodoId = id, UserId = userId };
             var result = await _mediator.Send(query);
             return FromResult(result);
         }

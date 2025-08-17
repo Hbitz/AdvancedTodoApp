@@ -10,7 +10,7 @@ using AdvancedTodoApp.Application.Common;
 
 namespace AdvancedTodoApp.Application.Features.Categories.Queries
 {
-    public class GetTodoByIsQuery : IRequest<OperationResult<TodoDto>>
+    public class GetTodoByIdQuery : IRequest<OperationResult<TodoDto>>
     {
         public Guid TodoId { get; set; }
         public Guid UserId { get; set; }
