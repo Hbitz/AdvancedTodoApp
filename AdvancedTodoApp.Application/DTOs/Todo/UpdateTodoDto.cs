@@ -8,12 +8,9 @@ namespace AdvancedTodoApp.Application.DTOs.Todo
 {
     public class UpdateTodoDto
     {
-        // Todo - Id can probably be removed as we are getting the ID from the route?
-        public Guid Id { get; set; }
         public string Title { get; set; }
         public string? Description { get; set; }
         public bool IsCompleted { get; set; }
-        public Guid UserId { get; set; }
         public Guid? CategoryId { get; set; }
     }
 }
