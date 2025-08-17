@@ -31,7 +31,7 @@ namespace AdvancedTodoApp.Application.Features.Categories.Handlers
                 Title = request.CreateTodoDto.Title,
                 Description = request.CreateTodoDto.Description,
                 IsCompleted = request.CreateTodoDto.isCompleted,
-                UserId = request.CreateTodoDto.UserId,
+                UserId = request.UserId,
                 CategoryId = request.CreateTodoDto.CategoryId,
             };
 

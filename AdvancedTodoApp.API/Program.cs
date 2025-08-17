@@ -45,7 +45,8 @@ namespace AdvancedTodoApp.API
             // Register MediatR
             builder.Services.AddMediatR(config =>
             {
-                config.RegisterServicesFromAssembly(typeof(CreateCategoryCommand).Assembly);
+                // This scans the whole assembly where CreateCategoryCommand lives, which means it scans the whole application layer, so we only need to give this path once.
+                config.RegisterServicesFromAssembly(typeof(CreateCategoryCommand).Assembly); 
             });
 
             builder.Services.AddAuthentication(options =>

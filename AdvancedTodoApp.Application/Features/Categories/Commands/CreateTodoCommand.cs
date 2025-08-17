@@ -16,5 +16,6 @@ namespace AdvancedTodoApp.Application.Features.Categories.Commands
         // Pros: Reuses DTO class in multiple places, keeps commands focused on behavior and DTOs on data structure
         // Cons: A bit of extra nesting, and requires another layer when accessing command: command.Title vs command.CreateTodoDto.Title.
         public CreateTodoDto CreateTodoDto { get; set; }
+        public Guid UserId { get; set; }
     }
 }

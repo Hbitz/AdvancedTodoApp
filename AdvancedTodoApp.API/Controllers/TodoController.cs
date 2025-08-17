@@ -28,7 +28,7 @@ namespace AdvancedTodoApp.API.Controllers
         }
 
 
-        [HttpGet]
+        [HttpGet("user")]
         public async Task<IActionResult> GetAll()
         {
             var userId = GetUserId();
@@ -53,6 +53,7 @@ namespace AdvancedTodoApp.API.Controllers
             var command = new CreateTodoCommand
             {
                 CreateTodoDto = dto,
+                UserId = userId
             };
             var result = await _mediator.Send(command);
             return FromResult(result);
@@ -64,7 +65,9 @@ namespace AdvancedTodoApp.API.Controllers
             var userId = GetUserId();
             var command = new UpdateTodoCommand
             {
+                TodoId = id,
                 UpdateTodoDto = dto,
+                UserId = userId
             };
             var result = await _mediator.Send(command);
             return FromResult(result);

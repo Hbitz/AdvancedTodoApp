@@ -23,7 +23,7 @@ namespace AdvancedTodoApp.Application.Features.Categories.Handlers
 
         public async Task<OperationResult<TodoDto>> Handle(UpdateTodoCommand request, CancellationToken cancellationToken)
         {
-            var todo = await _todoRepository.GetByIdAsync(request.UpdateTodoDto.Id);
+            var todo = await _todoRepository.GetByIdAsync(request.TodoId);
             if (todo == null)
             {
                 // TODO: fix explicit typed statusCode argument
@@ -34,7 +34,7 @@ namespace AdvancedTodoApp.Application.Features.Categories.Handlers
             todo.Title = request.UpdateTodoDto.Title;
             todo.Description = request.UpdateTodoDto.Description;   
             todo.IsCompleted = request.UpdateTodoDto.IsCompleted;
-            todo.UserId = request.UpdateTodoDto.UserId;
+            todo.UserId = request.UserId;
             todo.CategoryId = request.UpdateTodoDto.CategoryId;
 
             _todoRepository.Update(todo);

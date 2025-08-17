@@ -15,6 +15,8 @@ namespace AdvancedTodoApp.Application.Features.Categories.Commands
     // Reminder: UpdateTodoDto typically represents the *input* from user when updating, while TodoDto represents the *read model*
     public class UpdateTodoCommand : IRequest<OperationResult<TodoDto>> 
     {
+        public Guid TodoId { get; set; }
         public UpdateTodoDto UpdateTodoDto { get; set; }
+        public Guid UserId { get; set; }
     }
 }
