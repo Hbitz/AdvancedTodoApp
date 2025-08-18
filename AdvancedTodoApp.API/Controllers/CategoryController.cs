@@ -7,6 +7,7 @@ using System.Security.Claims;
 using AdvancedTodoApp.Application.Features.Categories.Commands;
 using MediatR;
 using AdvancedTodoApp.Application.Features.Categories.Queries;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace AdvancedTodoApp.API.Controllers
 {
@@ -29,6 +30,9 @@ namespace AdvancedTodoApp.API.Controllers
         }
 
         [HttpGet("{id}")]
+        [SwaggerOperation(Summary = "Get category by ID", Description = "Fetch a single category by its ID.")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(Guid id)
         {
             var userId = GetUserId();
@@ -42,6 +46,8 @@ namespace AdvancedTodoApp.API.Controllers
         }
 
         [HttpGet("user")]
+        [SwaggerOperation(Summary = "Get all categories for user", Description = "Fetch all categories for the current authenticated user.")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
         {
             var userId = GetUserId();
@@ -54,6 +60,9 @@ namespace AdvancedTodoApp.API.Controllers
         }
 
         [HttpPost]
+        [SwaggerOperation(Summary = "Create a category", Description = "Creates a new category for the authenticated user.")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Create([FromBody] CreateCategoryDto dto)
         {
             var userId = GetUserId();
@@ -68,6 +77,10 @@ namespace AdvancedTodoApp.API.Controllers
         }
 
         [HttpPut("{id}")]
+        [SwaggerOperation(Summary = "Update a category", Description = "Updates an existing category by ID for the authenticated user.")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Update(Guid id, [FromBody] UpdateCategoryDto dto)
         {
             var userId = GetUserId();
@@ -82,6 +95,9 @@ namespace AdvancedTodoApp.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [SwaggerOperation(Summary = "Delete a category", Description = "Deletes a category by ID for the authenticated user.")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(Guid id)
         {
             var userId = GetUserId();

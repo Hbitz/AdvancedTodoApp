@@ -5,12 +5,15 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.Net;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace AdvancedTodoApp.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
+    [Produces("application/json")]
     public class TodoController : BaseApiController
     {
         private readonly IMediator _mediator;
@@ -29,6 +32,9 @@ namespace AdvancedTodoApp.API.Controllers
 
 
         [HttpGet("user")]
+        [SwaggerOperation(Summary = "Get all todos for the current user", Description = "Returns all todos associated with the currently authenticated user.")]
+        [ProducesResponseType(typeof(IEnumerable<TodoDto>), (int)HttpStatusCode.OK)]
+
         public async Task<IActionResult> GetAll()
         {
             var userId = GetUserId();
@@ -38,6 +44,9 @@ namespace AdvancedTodoApp.API.Controllers
         }
 
         [HttpGet("{id}")]
+        [SwaggerOperation(Summary = "Get a single todo by ID", Description = "Returns a single todo by ID if it belongs to the current user.")]
+        [ProducesResponseType(typeof(TodoDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetById(Guid id)
         {
             var userId = GetUserId();
@@ -47,6 +56,9 @@ namespace AdvancedTodoApp.API.Controllers
         }
 
         [HttpPost]
+        [SwaggerOperation(Summary = "Create a new todo", Description = "Creates a new todo item for the currently authenticated user.")]
+        [ProducesResponseType(typeof(TodoDto), (int)HttpStatusCode.Created)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Create([FromBody] CreateTodoDto dto)
         {
             var userId = GetUserId();
@@ -60,6 +72,10 @@ namespace AdvancedTodoApp.API.Controllers
         }
 
         [HttpPut("{id}")]
+        [SwaggerOperation(Summary = "Update an existing todo", Description = "Updates a todo item belonging to the currently authenticated user.")]
+        [ProducesResponseType(typeof(TodoDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> Update(Guid id, [FromBody] UpdateTodoDto dto)
         {
             var userId = GetUserId();
@@ -75,6 +91,9 @@ namespace AdvancedTodoApp.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [SwaggerOperation(Summary = "Delete a todo", Description = "Deletes a todo item belonging to the currently authenticated user.")]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> Delete(Guid id)
         {
             var userId = GetUserId();

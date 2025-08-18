@@ -3,6 +3,7 @@ using AdvancedTodoApp.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using AdvancedTodoApp.Application.Features.Auth.Commands;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace AdvancedTodoApp.API.Controllers
 {
@@ -18,6 +19,9 @@ namespace AdvancedTodoApp.API.Controllers
         }
 
         [HttpPost("register")]
+        [SwaggerOperation(Summary = "Register a new user", Description = "Creates a new user with username, email, and password.")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Register(RegisterUserDto dto)
         {
             var command = new RegisterCommand
@@ -31,6 +35,9 @@ namespace AdvancedTodoApp.API.Controllers
         }
 
         [HttpPost("login")]
+        [SwaggerOperation(Summary = "Login a user", Description = "Returns JWT token on successful login.")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Login(LoginUserDto dto)
         {
             var command = new LoginCommand
