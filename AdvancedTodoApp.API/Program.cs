@@ -40,6 +40,7 @@ namespace AdvancedTodoApp.API
 
             // FluentValidation
             builder.Services.AddValidatorsFromAssemblyContaining<CreateCategoryCommandValidator>();
+            // Validation pipeline
             builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
             // Register MediatR
