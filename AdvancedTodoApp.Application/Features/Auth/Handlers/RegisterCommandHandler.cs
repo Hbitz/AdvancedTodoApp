@@ -10,9 +10,9 @@ using AdvancedTodoApp.Domain.Entities;
 using MediatR;
 using System.Security.Cryptography;
 using System.Text;
-using AdvancedTodoApp.Application.Features.Categories.Commands;
+using AdvancedTodoApp.Application.Features.Auth.Commands;
 
-namespace AdvancedTodoApp.Application.Features.Categories.Handlers
+namespace AdvancedTodoApp.Application.Features.Auth.Handlers
 {
     public class RegisterCommandHandler : IRequestHandler<RegisterCommand, OperationResult<RegisteredUserDto>>
     {

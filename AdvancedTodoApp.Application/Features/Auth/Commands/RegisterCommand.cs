@@ -7,7 +7,7 @@ using AdvancedTodoApp.Application.DTOs.Auth;
 using AdvancedTodoApp.Application.Common;
 using MediatR;
 
-namespace AdvancedTodoApp.Application.Features.Categories.Commands
+namespace AdvancedTodoApp.Application.Features.Auth.Commands
 {
     public class RegisterCommand : IRequest<OperationResult<RegisteredUserDto>>
     {

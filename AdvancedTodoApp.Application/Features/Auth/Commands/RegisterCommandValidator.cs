@@ -5,11 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentValidation;
 
-namespace AdvancedTodoApp.Application.Features.Categories.Commands
+namespace AdvancedTodoApp.Application.Features.Auth.Commands
 {
     public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
     {
-        public RegisterCommandValidator() {
+        public RegisterCommandValidator()
+        {
 
             RuleFor(x => x.UserName)
                 .NotEmpty().WithMessage("Username is required")

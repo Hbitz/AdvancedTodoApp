@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdvancedTodoApp.Application.Features.Categories.Queries
+namespace AdvancedTodoApp.Application.Features.Todos.Queries
 {
     public class GetTodosQuery : IRequest<OperationResult<List<TodoDto>>>
     {

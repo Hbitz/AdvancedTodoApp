@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdvancedTodoApp.Application.Features.Categories.Commands
+namespace AdvancedTodoApp.Application.Features.Todos.Commands
 {
     public class UpdateTodoDtoValidator : AbstractValidator<UpdateTodoDto>
     {
-        public UpdateTodoDtoValidator() 
+        public UpdateTodoDtoValidator()
         {
             RuleFor(x => x.Title)
                 .NotEmpty().WithMessage("Todo title is required.")

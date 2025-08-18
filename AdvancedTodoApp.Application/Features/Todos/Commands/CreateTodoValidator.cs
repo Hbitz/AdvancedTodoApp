@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdvancedTodoApp.Application.Features.Categories.Commands
+namespace AdvancedTodoApp.Application.Features.Todos.Commands
 {
     public class CreateTodoValidator : AbstractValidator<CreateTodoDto>
     {
-        public CreateTodoValidator() 
+        public CreateTodoValidator()
         {
             RuleFor(x => x.Title)
                 .NotNull().WithMessage("Title is required")

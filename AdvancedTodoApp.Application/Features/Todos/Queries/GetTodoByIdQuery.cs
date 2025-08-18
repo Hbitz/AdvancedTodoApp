@@ -8,7 +8,7 @@ using AdvancedTodoApp.Application.DTOs.Todo;
 using AdvancedTodoApp.Application.Common.Models;
 using AdvancedTodoApp.Application.Common;
 
-namespace AdvancedTodoApp.Application.Features.Categories.Queries
+namespace AdvancedTodoApp.Application.Features.Todos.Queries
 {
     public class GetTodoByIdQuery : IRequest<OperationResult<TodoDto>>
     {

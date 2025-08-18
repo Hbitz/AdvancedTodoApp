@@ -8,12 +8,12 @@ using AdvancedTodoApp.Application.DTOs.Todo;
 using AdvancedTodoApp.Application.Common.Models;
 using AdvancedTodoApp.Application.Common;
 
-namespace AdvancedTodoApp.Application.Features.Categories.Commands
+namespace AdvancedTodoApp.Application.Features.Todos.Commands
 {
 
     // This should be what the handler returns, e.g. a TodoDto and not a UpdatedTodoDto
     // Reminder: UpdateTodoDto typically represents the *input* from user when updating, while TodoDto represents the *read model*
-    public class UpdateTodoCommand : IRequest<OperationResult<TodoDto>> 
+    public class UpdateTodoCommand : IRequest<OperationResult<TodoDto>>
     {
         public Guid TodoId { get; set; }
         public UpdateTodoDto UpdateTodoDto { get; set; }

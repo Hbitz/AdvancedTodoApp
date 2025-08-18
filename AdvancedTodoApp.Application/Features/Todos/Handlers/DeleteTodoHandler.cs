@@ -1,5 +1,4 @@
 ﻿using AdvancedTodoApp.Application.Common;
-using AdvancedTodoApp.Application.Features.Categories.Commands;
 using AdvancedTodoApp.Application.Interfaces.Persistence;
 using MediatR;
 using System;
@@ -8,8 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Net;
 using System.Threading.Tasks;
+using AdvancedTodoApp.Application.Features.Todos.Commands;
 
-namespace AdvancedTodoApp.Application.Features.Categories.Handlers
+namespace AdvancedTodoApp.Application.Features.Todos.Handlers
 {
     public class DeleteTodoHandler : IRequestHandler<DeleteTodoCommand, OperationResult<bool>>
     {

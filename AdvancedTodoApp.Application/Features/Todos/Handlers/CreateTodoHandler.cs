@@ -1,6 +1,5 @@
 ﻿using AdvancedTodoApp.Application.Common;
 using AdvancedTodoApp.Application.DTOs.Todo;
-using AdvancedTodoApp.Application.Features.Categories.Commands;
 using AdvancedTodoApp.Application.Interfaces.Persistence;
 using AdvancedTodoApp.Domain.Entities;
 using MediatR;
@@ -10,8 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Net;
 using System.Threading.Tasks;
+using AdvancedTodoApp.Application.Features.Todos.Commands;
 
-namespace AdvancedTodoApp.Application.Features.Categories.Handlers
+namespace AdvancedTodoApp.Application.Features.Todos.Handlers
 {
     public class CreateTodoHandler : IRequestHandler<CreateTodoCommand, OperationResult<TodoDto>>
     {

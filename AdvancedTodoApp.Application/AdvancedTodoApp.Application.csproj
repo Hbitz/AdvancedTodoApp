@@ -13,8 +13,7 @@
   <ItemGroup>
     <Folder Include="Abstractions\Services\" />
     <Folder Include="Abstractions\Persistence\" />
-    <Folder Include="Features\Todos\Commands\" />
-    <Folder Include="Features\Todos\Queries\" />
+    <Folder Include="Features\Auth\Queries\" />
   </ItemGroup>
 
   <ItemGroup>

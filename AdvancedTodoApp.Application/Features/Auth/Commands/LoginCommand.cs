@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdvancedTodoApp.Application.Features.Categories.Commands
+namespace AdvancedTodoApp.Application.Features.Auth.Commands
 {
     public class LoginCommand : IRequest<OperationResult<JwtTokenDto>>
     {

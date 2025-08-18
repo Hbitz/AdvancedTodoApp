@@ -2,7 +2,7 @@
 using AdvancedTodoApp.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
-using AdvancedTodoApp.Application.Features.Categories.Commands;
+using AdvancedTodoApp.Application.Features.Auth.Commands;
 
 namespace AdvancedTodoApp.API.Controllers
 {

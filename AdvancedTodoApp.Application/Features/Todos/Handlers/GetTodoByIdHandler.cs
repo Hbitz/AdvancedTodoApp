@@ -1,6 +1,5 @@
 ﻿using AdvancedTodoApp.Application.Common;
 using AdvancedTodoApp.Application.DTOs.Todo;
-using AdvancedTodoApp.Application.Features.Categories.Queries;
 using AdvancedTodoApp.Application.Interfaces.Persistence;
 using MediatR;
 using System;
@@ -9,8 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AdvancedTodoApp.Application.Features.Todos.Queries;
 
-namespace AdvancedTodoApp.Application.Features.Categories.Handlers
+namespace AdvancedTodoApp.Application.Features.Todos.Handlers
 {
     public class GetTodoByIdHandler : IRequestHandler<GetTodoByIdQuery, OperationResult<TodoDto>>
     {

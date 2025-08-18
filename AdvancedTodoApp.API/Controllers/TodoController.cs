@@ -1,6 +1,6 @@
 ﻿using AdvancedTodoApp.Application.DTOs.Todo;
-using AdvancedTodoApp.Application.Features.Categories.Commands;
-using AdvancedTodoApp.Application.Features.Categories.Queries;
+using AdvancedTodoApp.Application.Features.Todos.Commands;
+using AdvancedTodoApp.Application.Features.Todos.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -1,6 +1,5 @@
 ﻿using AdvancedTodoApp.Application.Common;
 using AdvancedTodoApp.Application.DTOs.Auth;
-using AdvancedTodoApp.Application.Features.Categories.Commands;
 using AdvancedTodoApp.Application.Interfaces.Persistence;
 using MediatR;
 using System;
@@ -12,8 +11,9 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using AdvancedTodoApp.Application.Interfaces.Auth;
 using System.Net;
+using AdvancedTodoApp.Application.Features.Auth.Commands;
 
-namespace AdvancedTodoApp.Application.Features.Categories.Handlers
+namespace AdvancedTodoApp.Application.Features.Auth.Handlers
 {
     public class LoginCommandHandler : IRequestHandler<LoginCommand, OperationResult<JwtTokenDto>>
     {

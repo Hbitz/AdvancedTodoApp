@@ -8,7 +8,7 @@ using AdvancedTodoApp.Application.DTOs.Todo;
 using AdvancedTodoApp.Application.Common.Models;
 using AdvancedTodoApp.Application.Common;
 
-namespace AdvancedTodoApp.Application.Features.Categories.Commands
+namespace AdvancedTodoApp.Application.Features.Todos.Commands
 {
     public class CreateTodoCommand : IRequest<OperationResult<TodoDto>>
     {
