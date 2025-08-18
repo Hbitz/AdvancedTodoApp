@@ -23,9 +23,9 @@ namespace AdvancedTodoApp.Application.Features.Todos.Handlers
         public async Task<OperationResult<bool>> Handle(DeleteTodoCommand request, CancellationToken cancellationToken)
         {
             var todo = await _todoRepository.GetByIdAsync(request.Id);
-            if (todo == null)
+            if (todo == null || todo.UserId != request.Id)
             {
-                return OperationResult<bool>.Fail("Todo not found", statusCode: HttpStatusCode.NotFound);
+                return OperationResult<bool>.Fail("Todo not found or unauthorized", statusCode: HttpStatusCode.NotFound);
             }
 
             _todoRepository.Delete(todo);

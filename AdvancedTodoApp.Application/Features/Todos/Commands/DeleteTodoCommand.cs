@@ -9,8 +9,9 @@ using AdvancedTodoApp.Application.Common;
 
 namespace AdvancedTodoApp.Application.Features.Todos.Commands
 {
-    public class DeleteTodoCommand : IRequest<OperationResult<bool>>
+    public class DeleteTodoCommand() : IRequest<OperationResult<bool>>
     {
         public Guid Id { get; set; }
+        public Guid UserId { get; set; }
     }
 }

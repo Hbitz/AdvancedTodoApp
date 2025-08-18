@@ -78,7 +78,11 @@ namespace AdvancedTodoApp.API.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             var userId = GetUserId();
-            var command = new DeleteTodoCommand { Id = id };
+            var command = new DeleteTodoCommand 
+            {
+                UserId = userId,
+                Id = id
+            };
             var result = await _mediator.Send(command);
             return FromResult(result);
         }        
