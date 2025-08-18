@@ -14,6 +14,7 @@ using AdvancedTodoApp.Application.Features.Categories.Commands;
 using MediatR;
 using AdvancedTodoApp.Application.Interfaces.Auth;
 using AdvancedTodoApp.Infrastructure.Auth;
+using Microsoft.OpenApi.Models;
 
 namespace AdvancedTodoApp.API
 {
@@ -37,6 +38,19 @@ namespace AdvancedTodoApp.API
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+
+            // Swagger
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.EnableAnnotations();
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "AdvancedTodoApp Api",
+                    Version = "v1",
+                    Description = "API for managing Authentication, Todos and Categories."
+                });
+            });
 
             // FluentValidation
             builder.Services.AddValidatorsFromAssemblyContaining<CreateCategoryCommandValidator>();
@@ -74,8 +88,18 @@ namespace AdvancedTodoApp.API
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            // Enable swagger in dev
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI(options =>
+                {
+                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "AdvancedTodoApp API v1");
+                    options.RoutePrefix = string.Empty; // Swagger runs at app rot
+                });
+            }
 
+            // Configure the HTTP request pipeline.
             app.UseHttpsRedirection();
 
             app.UseAuthentication();
