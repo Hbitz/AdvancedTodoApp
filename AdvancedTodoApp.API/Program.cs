@@ -122,6 +122,8 @@ namespace AdvancedTodoApp.API
                 {
                     options.SwaggerEndpoint("/swagger/v1/swagger.json", "AdvancedTodoApp API v1");
                     options.RoutePrefix = string.Empty; // Swagger runs at app rot
+                    // Persist JWT token after page refresh for improved dev experience
+                    options.ConfigObject.AdditionalItems["peristAuthorization"] = true;
                 });
             }
 
