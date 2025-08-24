@@ -16,10 +16,12 @@ namespace AdvancedTodoApp.Application.Features.Todos.Handlers
     public class CreateTodoHandler : IRequestHandler<CreateTodoCommand, OperationResult<TodoDto>>
     {
         private readonly ITodoRepository _todoRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public CreateTodoHandler(ITodoRepository todoRepository)
+        public CreateTodoHandler(ITodoRepository todoRepository, ICategoryRepository categoryRepository)
         {
             _todoRepository = todoRepository;
+            _categoryRepository = categoryRepository;
         }
 
         public async Task<OperationResult<TodoDto>> Handle(CreateTodoCommand request, CancellationToken cancellationToken)
@@ -33,7 +35,17 @@ namespace AdvancedTodoApp.Application.Features.Todos.Handlers
                 IsCompleted = request.CreateTodoDto.isCompleted,
                 UserId = request.UserId,
                 CategoryId = request.CreateTodoDto.CategoryId,
-            };
+            }; 
+            
+            // categoryId is optional, but if value exists, validate it.
+            if (request.CreateTodoDto.CategoryId.HasValue)
+            {
+                var category = await _todoRepository.GetByIdAsync(request.CreateTodoDto.CategoryId.Value);
+                if (category == null)
+                {
+                    return OperationResult<TodoDto>.Fail("Category not found", ErrorCode.NotFound, HttpStatusCode.BadRequest);
+                }
+            }
 
             _todoRepository.Add(todo);
             await _todoRepository.SaveChangesAsync();
