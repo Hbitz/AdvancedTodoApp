@@ -79,42 +79,8 @@ namespace AdvancedTodoApp.Application.Common.Behaviors
                     // if TResponse is not OperationResult<T>, throw exception
                     throw new InvalidOperationException($"ValidationBehavior expected TResponse to be OperationResult<T>, but got {typeof(TResponse).Name}");
                 }
-
-
-                //var errorMessagse = failures
-                //    .Select(f => f.ErrorMessage)
-                //    .ToList();
-
-                //// Here we can safely cast OperationResult<object> Fail() to Tresponse, since we use OperationResult<T> across the solution,
-                //// and implements IOperationResult.
-                //var errorResult = OperationResult<object>.Fail(
-                //    errorMessagse,
-                //    ErrorCode.ValidationError,
-                //    HttpStatusCode.BadRequest);
-
-                //return (TResponse)(IOperationResult) errorResult;
-
-
-                //// More advanced version, works with non-generic types and advanced use cases but harder to debug.
-                //// Since we're only using OperationResult<T> across the application currently, just leaving this commented in case it's addition is needed.
-
-                //// Try to generically create a failure response dynamically
-                //// This assumes we're using OperationResult<T> as our standard response wrapper.
-                //var errors = failures.Select(f => f.ErrorMessage).ToList();
-
-                //// Create new instance of OperationResult<T> with error info using reflection.
-                //// Harder to understand/less readable, but works with non-generic types.
-                //var errorResult = typeof(OperationResult<>)
-                //    .MakeGenericType(typeof(TResponse).GenericTypeArguments[0])
-                //    .GetMethod(nameof(OperationResult<object>.Fail), new[] { typeof(List<string>), typeof(HttpStatusCode) })
-                //    ?.Invoke(null, new object[] { errors, HttpStatusCode.BadRequest });
-
-                //return (TResponse)errorResult;
             }
             return await next();
         }
-
-        // If no validators for this request exists, just go next without doing anything.
-        //return await next();
     }
 }
