@@ -39,7 +39,6 @@ namespace AdvancedTodoApp.Application.Common.Behaviors
             RequestHandlerDelegate<TResponse> next,
             CancellationToken cancellationToken)
         {
-            Console.WriteLine("validator testline testtest test");
             if (_validators.Any())
             {
                 // Run all the validators in parallel on the incomming request
