@@ -82,6 +82,8 @@ namespace AdvancedTodoApp.API
             builder.Services.AddValidatorsFromAssemblyContaining<CreateCategoryCommandValidator>();
             // Validation pipeline
             builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+            // Logging pipeling
+            builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
 
             // Register MediatR
             builder.Services.AddMediatR(config =>
