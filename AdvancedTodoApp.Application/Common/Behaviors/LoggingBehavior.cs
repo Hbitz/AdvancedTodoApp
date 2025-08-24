@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Text.Json;
 using AdvancedTodoApp.Application.Common.Models;
+using AdvancedTodoApp.Application.Common.Helpers;
 
 namespace AdvancedTodoApp.Application.Common.Behaviors
 {
@@ -25,9 +26,10 @@ namespace AdvancedTodoApp.Application.Common.Behaviors
 
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
-            // Get the name of the request and serialize the data
+            // Get the name of the request
             var requestName = typeof(TRequest).Name;
-            var requestData = JsonSerializer.Serialize(request);
+            // Use Helper class to seralize data and hide/redact the sensitive fields such as password etc.
+            var requestData = LoggingHelper.RedactSensitiveData(request);
 
             // Log the request and then start a timer
             _logger.LogInformation("Handling {RequestName} with data: {RequestData}", requestName, requestData);
