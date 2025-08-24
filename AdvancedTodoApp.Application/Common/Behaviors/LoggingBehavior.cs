@@ -7,12 +7,15 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Text.Json;
+using AdvancedTodoApp.Application.Common.Models;
 
 namespace AdvancedTodoApp.Application.Common.Behaviors
 {
     public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest,TResponse> where TRequest : IRequest<TResponse>
     {
         private readonly ILogger<LoggingBehavior<TRequest, TResponse>> _logger;
+        // If the duration of a request is over threshold, log with a warning
+        private readonly int _warningThreshholdMilliseconds = 1000;
 
         public LoggingBehavior(ILogger<LoggingBehavior<TRequest, TResponse>> logger)
         {
@@ -36,9 +39,33 @@ namespace AdvancedTodoApp.Application.Common.Behaviors
 
                 // stop timer and log info
                 stopwatch.Stop();
-                _logger.LogInformation("Handled {RequestName} in {ElapsedMilliseconds}ms", requestName, stopwatch.ElapsedMilliseconds);
 
-                // If response is of the OperationResult type and fails, we can log warnings here
+                // If response is OperationResult and failed, we still want to log the request - but with a warning.
+                if (response is IOperationResult op && !op.Success)
+                {
+                    _logger.LogWarning("Request {RequestName} completed with validation or domain errors: {Errors} (took {ElapsedMilliseconds}ms)",
+                        requestName,
+                        string.Join(", ", op.Errors),
+                        stopwatch.ElapsedMilliseconds);
+                }
+                // Else log normally, unless duration of a request is deemed too long - in which case we log as a warning as well.
+                else
+                {
+                    
+                    if (stopwatch.ElapsedMilliseconds > _warningThreshholdMilliseconds)
+                    {
+                        _logger.LogWarning("Request {RequestName} took {ElapsedMilliseconds}ms which exceeds threshold",
+                            requestName,
+                            stopwatch.ElapsedMilliseconds);
+                    }
+                    // Normal logging
+                    else
+                    {
+                        _logger.LogInformation("Handled {RequestName} in {ElapsedMilliseconds}ms",
+                            requestName,
+                            stopwatch.ElapsedMilliseconds);
+                    }
+                }
 
                 return response;
             }
